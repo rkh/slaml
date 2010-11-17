@@ -33,12 +33,12 @@ class TestIndentParser < MiniTest::Unit::TestCase
 
   parser do
     from 'foo'
-    expect [:multi, [:slaml, 0, 'foo', [:multi]]]
+    expect [:multi, [:indent, 0, 'foo', [:multi]]]
   end
 
   parser do
     from "foo\n"
-    expect [:multi, [:slaml, 0, 'foo', [:multi]]]
+    expect [:multi, [:indent, 0, 'foo', [:multi]]]
   end
 
   parser do
@@ -47,8 +47,8 @@ class TestIndentParser < MiniTest::Unit::TestCase
       bar
     CODE
     expect [:multi,
-      [:slaml, 0, 'foo', [:multi]],
-      [:slaml, 0, 'bar', [:multi]]]
+      [:indent, 0, 'foo', [:multi]],
+      [:indent, 0, 'bar', [:multi]]]
   end
 
   parser do
@@ -58,8 +58,8 @@ class TestIndentParser < MiniTest::Unit::TestCase
       bar    
     CODE
     expect [:multi,
-      [:slaml, 0, 'foo', [:multi]],
-      [:slaml, 0, 'bar', [:multi]]]
+      [:indent, 0, 'foo', [:multi]],
+      [:indent, 0, 'bar', [:multi]]]
   end
 
   parser do
@@ -68,8 +68,8 @@ class TestIndentParser < MiniTest::Unit::TestCase
         bar
     CODE
     expect [:multi,
-      [:slaml, 0, 'foo', [:multi,
-        [:slaml, 2, 'bar', [:multi]]]]]
+      [:indent, 0, 'foo', [:multi,
+        [:indent, 2, 'bar', [:multi]]]]]
   end
 
   parser do
@@ -79,9 +79,9 @@ class TestIndentParser < MiniTest::Unit::TestCase
         blah
     CODE
     expect [:multi,
-      [:slaml, 0, 'foo', [:multi,
-        [:slaml, 2, 'bar', [:multi]],
-        [:slaml, 2, 'blah', [:multi]]]]]
+      [:indent, 0, 'foo', [:multi,
+        [:indent, 2, 'bar', [:multi]],
+        [:indent, 2, 'blah', [:multi]]]]]
   end
 
   parser do
@@ -91,9 +91,9 @@ class TestIndentParser < MiniTest::Unit::TestCase
         blah
     CODE
     expect [:multi,
-      [:slaml, 0, 'foo', [:multi,
-        [:slaml, 2, 'bar', [:multi]],
-        [:slaml, 2, 'blah', [:multi]]]]]
+      [:indent, 0, 'foo', [:multi,
+        [:indent, 2, 'bar', [:multi]],
+        [:indent, 2, 'blah', [:multi]]]]]
       end
 
   parser do
@@ -103,9 +103,9 @@ class TestIndentParser < MiniTest::Unit::TestCase
           blah
     CODE
     expect [:multi,
-      [:slaml, 0, 'foo', [:multi,
-        [:slaml, 2, 'bar', [:multi,
-          [:slaml, 4, 'blah', [:multi]]]]]]]
+      [:indent, 0, 'foo', [:multi,
+        [:indent, 2, 'bar', [:multi,
+          [:indent, 4, 'blah', [:multi]]]]]]]
   end
 
   parser do
@@ -115,9 +115,9 @@ class TestIndentParser < MiniTest::Unit::TestCase
       c
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi,
-        [:slaml, 2, 'b', [:multi]]]],
-      [:slaml, 0, 'c', [:multi]]]
+      [:indent, 0, 'a', [:multi,
+        [:indent, 2, 'b', [:multi]]]],
+        [:indent, 0, 'c', [:multi]]]
   end
 
   parser do
@@ -128,10 +128,10 @@ class TestIndentParser < MiniTest::Unit::TestCase
           d
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi,
-        [:slaml, 2, 'b', [:multi]],
-        [:slaml, 2, 'c', [:multi,
-          [:slaml, 4, 'd', [:multi]]]]]]]
+      [:indent, 0, 'a', [:multi,
+        [:indent, 2, 'b', [:multi]],
+        [:indent, 2, 'c', [:multi,
+          [:indent, 4, 'd', [:multi]]]]]]]
   end
 
   parser do
@@ -147,28 +147,28 @@ class TestIndentParser < MiniTest::Unit::TestCase
       e
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi,
-        [:slaml, 2, 'aa', [:multi]]]],
-      [:slaml, 0, 'b', [:multi]],
-      [:slaml, 0, 'c', [:multi,
-        [:slaml, 1, 'ca', [:multi,
-          [:slaml, 5, 'caa', [:multi]],
-          [:slaml, 4, 'cab', [:multi]]]]]],
-      [:slaml, 0, 'd', [:multi]],
-      [:slaml, 0, 'e', [:multi]]]
+      [:indent, 0, 'a', [:multi,
+        [:indent, 2, 'aa', [:multi]]]],
+        [:indent, 0, 'b', [:multi]],
+        [:indent, 0, 'c', [:multi,
+          [:indent, 1, 'ca', [:multi,
+            [:indent, 5, 'caa', [:multi]],
+            [:indent, 4, 'cab', [:multi]]]]]],
+            [:indent, 0, 'd', [:multi]],
+            [:indent, 0, 'e', [:multi]]]
   end
 
   parser do
     options :strip => false
     from "foo \n"
-    expect [:multi, [:slaml, 0, "foo ", [:multi]]]
+    expect [:multi, [:indent, 0, "foo ", [:multi]]]
   end
 
   parser do
     options :strip => false
     from "foo \n  bar"
-    expect [:multi, [:slaml, 0, "foo ", [:multi,
-      [:slaml, 2, "bar", [:multi]]]]]
+    expect [:multi, [:indent, 0, "foo ", [:multi,
+      [:indent, 2, "bar", [:multi]]]]]
   end
 
   parser do
@@ -178,9 +178,9 @@ class TestIndentParser < MiniTest::Unit::TestCase
       b
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi]],
-      [:slaml, 0, '',  [:multi]],
-      [:slaml, 0, 'b', [:multi]]]
+      [:indent, 0, 'a', [:multi]],
+      [:indent, 0, '',  [:multi]],
+      [:indent, 0, 'b', [:multi]]]
   end
   
   parser do
@@ -190,9 +190,9 @@ class TestIndentParser < MiniTest::Unit::TestCase
         b
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi,
-        [:slaml, 2, '', [:multi]],
-        [:slaml, 2, 'b', [:multi]]]]]
+      [:indent, 0, 'a', [:multi,
+        [:indent, 2, '', [:multi]],
+        [:indent, 2, 'b', [:multi]]]]]
   end
 
   parser do
@@ -203,8 +203,8 @@ class TestIndentParser < MiniTest::Unit::TestCase
       b
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi]],
-      [:slaml, 0, 'b', [:multi]]]
+      [:indent, 0, 'a', [:multi]],
+      [:indent, 0, 'b', [:multi]]]
   end
   
   parser do
@@ -215,7 +215,7 @@ class TestIndentParser < MiniTest::Unit::TestCase
         b
     CODE
     expect [:multi,
-      [:slaml, 0, 'a', [:multi,
-        [:slaml, 2, 'b', [:multi]]]]]
+      [:indent, 0, 'a', [:multi,
+        [:indent, 2, 'b', [:multi]]]]]
   end
 end

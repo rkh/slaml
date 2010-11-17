@@ -19,7 +19,7 @@ typedef struct {
   VALUE root;
 } IndentParser;
 
-static VALUE sOptions, sStrip, sMulti, sSlaml, sTrackEmptyLines;
+static VALUE sOptions, sStrip, sMulti, sIndent, sTrackEmptyLines;
 
 static VALUE indent_parser_initialize(int argc, VALUE *argv, VALUE self)
 {
@@ -122,7 +122,7 @@ inline static VALUE IndentParser_new_element(IndentParser *self, char *start, in
   VALUE parent   = IndentParser_detect_parent(self);
   VALUE element  = rb_ary_new();
   VALUE children = rb_ary_new();
-  rb_ary_push(element, sSlaml);
+  rb_ary_push(element, sIndent);
   rb_ary_push(element, INT2FIX(self->prefix_length));
   rb_ary_push(element, rb_str_new(start, length));
   rb_ary_push(children, sMulti);
@@ -265,7 +265,7 @@ void Init_indent_parser()
   sOptions            = rb_intern("@options");
   sStrip              = ID2SYM(rb_intern("strip"));
   sMulti              = ID2SYM(rb_intern("multi"));
-  sSlaml              = ID2SYM(rb_intern("slaml"));
+  sIndent             = ID2SYM(rb_intern("indent"));
   sTrackEmptyLines    = ID2SYM(rb_intern("track_empty_lines"));
 
   // Class definition
